@@ -15,7 +15,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://m.aismiledev.hichengdai.com',
+        target: 'http://m.aismiletest.hichengdai.com',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

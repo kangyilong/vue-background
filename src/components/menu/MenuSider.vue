@@ -67,17 +67,19 @@ export default {
           this.timeout = setTimeout(() => {
             const itName = openMenu.name
             const { name, url, id } = menuObj
+            const hh = url.split('.htm')[0]
             this.BREAD_CRUMB({
               key: 'two',
               text: itName
             })
             this.BREAD_CRUMB({
               key: 'three',
-              text: name
+              text: name,
+              url: hh
             })
             this.getPageButtons(id)
             localStorage.setItem('siderActiveId', this.activeId)
-            this.$router.push(url.split('.htm')[0])
+            this.$router.push(hh)
           }, 100)
         }
       }

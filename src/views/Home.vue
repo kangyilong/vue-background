@@ -7,12 +7,13 @@
       <Sider hide-trigger>
         <MenuSider />
       </Sider>
-      <Layout style="padding: 0 24px 24px;">
-        <Breadcrumb style="margin: 24px 0">
-          <BreadcrumbItem>{{breadCrumb.one}}</BreadcrumbItem>
-          <BreadcrumbItem>{{breadCrumb.two}}</BreadcrumbItem>
-          <BreadcrumbItem>{{breadCrumb.three}}</BreadcrumbItem>
+      <Layout style="padding: 0 24px 24px; position: relative;">
+        <Breadcrumb style="margin: 24px 10px 24px 0">
+          <BreadcrumbItem>{{breadCrumb.one.text}}</BreadcrumbItem>
+          <BreadcrumbItem>{{breadCrumb.two.text}}</BreadcrumbItem>
+          <BreadcrumbItem style="cursor: pointer;" :to="breadCrumb.three.url">{{breadCrumb.three.text}}</BreadcrumbItem>
         </Breadcrumb>
+        <p class="pre_page" v-if="!isLevelOnePage" @click="previousPage">上一页</p>
         <Content style="padding: 24px; background-color: #fff;" :style="{minHeight: clientHeight}">
           <router-view></router-view>
         </Content>
@@ -57,10 +58,26 @@ export default {
     }
   },
   methods: {
+    goPage (url) {
+      this.$router.push(url)
+    },
+    previousPage () {
+      this.$router.go(-1)
+    },
     ...mapMutations(['MENU_SIDER_DATA'])
   },
-  computed: mapState(['breadCrumb'])
+  computed: mapState(['breadCrumb', 'isLevelOnePage'])
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .pre_page {
+    color: #2d8cf0;
+    cursor: pointer;
+    position: absolute;
+    right: 34px;
+    top: 20px;
+    padding: 10px 0;
+    font-size: 13px;
+  }
+</style>

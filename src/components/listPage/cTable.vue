@@ -3,14 +3,14 @@
     ref="selection"
     :columns="tableColumns"
     :data="pageData"
-    :loading="loading"
+    :loading="tableLoading"
     @on-select="tableSelect"
     @on-selection-change="selectionChange"
   ></Table>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   props: {
     rowKey: {
@@ -19,28 +19,37 @@ export default {
     }
   },
   data () {
-    return {
-      loading: true,
-      selectionList: []
-    }
+    return {}
   },
   methods: {
     tableSelect (selection) {
-      this.selectionList = selection
+      this.SELECTION_DATA(selection)
     },
     selectionChange (selection) {
-      this.selectionList = selection
-    }
+      this.SELECTION_DATA(selection)
+    },
+    ...mapMutations(['SELECTION_DATA', 'TABLE_LOADING'])
   },
   computed: {
-    ...mapState(['tableColumns', 'pageData'])
+    ...mapState(['tableLoading', 'tableColumns', 'pageData', 'breadCrumb', 'isSelection',
+      'isExportTable'])
   },
   watch: {
     pageData: {
       handler () {
-        this.loading = false
+        this.TABLE_LOADING(false)
       },
       deep: true
+    },
+    isSelection () {
+      this.$refs.selection.selectAll(false)
+    },
+    isExportTable () {
+      this.$refs.selection.exportCsv({
+        filename: this.breadCrumb.three,
+        original: false,
+        data: this.pageData
+      })
     }
   }
 }

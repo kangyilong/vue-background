@@ -7,6 +7,9 @@ export default [
       path: '/system/role',
       component: () => import('@/views/system/role/role')
     }, {
+      path: '/system/role/addEdit',
+      component: () => import('@/views/system/role/role-detail')
+    }, {
       path: '*',
       component: () => import('@/views/public/welcome')
     }]
